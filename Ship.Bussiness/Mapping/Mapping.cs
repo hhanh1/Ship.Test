@@ -15,6 +15,7 @@ namespace Ship.Bussiness
         public Mapping()
         {
             CreateMap<ShipViewModel, Entities.Ship>();
+            CreateMap< Entities.Ship, ShipReponses>();
             CreateMap<PageList<Entities.Ship>,PageList<ShipReponses>>();
         }
     }

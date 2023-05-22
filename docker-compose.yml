@@ -1,42 +1,17 @@
 version: '3.5'
 services:
     backend:
-        depends_on:
-            - postgres-database
         build:
             context: ./
             dockerfile: Dockerfile
         image: ship-api:latest
         ports:
-            - 80:80
-            - 443:443
+            - 5000:80
         environment:
-            - ConnectionStrings__DefaultString=Host=localhost;Port=5432;User ID=admin;Password=KBt8Pd2d7dXVSUvkbdD7;Database=testShip;
-            - Logging__LogLevel__Default=Information
-            - Logging__LogLevel__Microsoft.AspNetCore=Warning
+            - ConnectionStrings__DefaultString=Host=ep-lively-cell-444164.ap-southeast-1.aws.neon.tech;Port=5432;User ID=daufather;Password=j1oMbqZ6EGfI;Database=neondb;;
         command: ["dotnet", "ef", "database update"]
         networks:
-            my-network-name:
-                aliases:
-                    - ship-api
-    postgres-database:
-        container_name: postgres_container
-        image: postgres:12.13
-        environment:
-            POSTGRES_DB: testShip
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: KBt8Pd2d7dXVSUvkbdD7
-            PGDATA: /var/lib/postgresql/data
-        volumes:
-            - db-data:/var/lib/postgresql/data
-        ports:
-            - "5432:5432"
-        networks:
-            my-network-name:
-                aliases:
-                    - postgres-name
-        restart: unless-stopped
-volumes:
-    db-data:
+            - my-network
 networks:
-    my-network-name:
+    my-network:
+        driver: bridge
