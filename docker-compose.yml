@@ -3,25 +3,28 @@ services:
     backend:
         depends_on:
             - postgres-database
-        image: dcms-api:latest
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: ship-api:latest
         ports:
             - 80:80
             - 443:443
         environment:
-            - ConnectionStrings__DefaultString=Host=localhost;Port=5432;User ID=test;Password=KBt8Pd2d7dXVSUvkbdD7;Database=testShip;
+            - ConnectionStrings__DefaultString=Host=localhost;Port=5432;User ID=admin;Password=KBt8Pd2d7dXVSUvkbdD7;Database=testShip;
             - Logging__LogLevel__Default=Information
             - Logging__LogLevel__Microsoft.AspNetCore=Warning
         command: ["dotnet", "ef", "database update"]
         networks:
             my-network-name:
                 aliases:
-                    - dcms-api
+                    - ship-api
     postgres-database:
         container_name: postgres_container
         image: postgres:12.13
         environment:
             POSTGRES_DB: testShip
-            POSTGRES_USER: dcmsAdmin
+            POSTGRES_USER: admin
             POSTGRES_PASSWORD: KBt8Pd2d7dXVSUvkbdD7
             PGDATA: /var/lib/postgresql/data
         volumes:
