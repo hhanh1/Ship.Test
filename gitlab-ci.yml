@@ -1,0 +1,10 @@
+stages:
+  - build
+  - deploy
+build:
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  image: docker:19.03.1
+  script:
+    - docker build -f Dockerfile -t test-api .
